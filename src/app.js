@@ -89,3 +89,32 @@ const rupiah = (number) => {
     minimumFractionDigits: 0,
   }).format(number);
 };
+function sendToWhatsApp(name, email, phone) {
+  // Ambil item dari Alpine Store
+  const items = Alpine.store("cart").items;
+  const total = Alpine.store("cart").total;
+
+  // Format rincian produk
+  let productList = items
+    .map(
+      (item) =>
+        `- ${item.name} (${item.quantity}x) = Rp ${item.total.toLocaleString("id-ID")}`,
+    )
+    .join("\n");
+
+  // Format teks pesan
+  const message =
+    `Halo, saya ingin melakukan pemesanan ATK:\n\n` +
+    `*Data Pemesan:*\n` +
+    `Nama: ${name}\n` +
+    `Email: ${email}\n` +
+    `No. HP: ${phone}\n\n` +
+    `*Rincian Pesanan:*\n` +
+    `${productList}\n\n` +
+    `*Total Bayar:* Rp ${total.toLocaleString("id-ID")}\n\n` +
+    `Mohon info rekening/QRIS untuk pembayaran via e-wallet (GoPay/Dana/OVO). Terima kasih!`;
+
+  // Encode URL dan buka WhatsApp
+  const whatsappUrl = `https://wa.me/628815651785?text=${encodeURIComponent(message)}`;
+  window.open(whatsappUrl, "_blank");
+}

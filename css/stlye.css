@@ -168,15 +168,89 @@ body {
   font-size: 1.6rem;
   margin-top: -1rem;
   text-align: center;
+  border-bottom: 1px dashed #000;
 }
-.form-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  border-top: 1px dashed black;
+.checkout-form {
+  background-color: #e5d5be; /* Warna cream sesuai gambar Anda */
+  padding: 24px;
+  border-radius: 8px;
+  max-width: 450px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
   margin-top: 1rem;
-  padding: 1rem;
 }
+
+.checkout-form h2 {
+  text-align: center;
+  color: #1f2937;
+  margin-bottom: 20px;
+}
+
+/* Tata Letak Input & Label */
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  width: 130px; /* Lebar area label agar sejajar */
+  font-weight: 600;
+  color: #374151;
+}
+
+.form-group input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #ffffff;
+  font-size: 14px;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+/* Efek saat input sedang diketik (Focus) */
+.form-group input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Base Tombol CheckOut (Saat Aktif/Lengkap) */
+.checkout-btn {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  background-color: #3b82f6; /* Warna biru aktif */
+  color: #ffffff;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    opacity 0.3s,
+    transform 0.1s;
+}
+
+.checkout-btn:hover:not(:disabled) {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+}
+
+/* TAMPILAN SAAT DATA BELUM LENGKAP (DISABLED) */
+.checkout-btn:disabled {
+  background-color: #9ca3af !important; /* Warna abu-abu */
+  color: #f3f4f6;
+  cursor: not-allowed; /* Kursor lambang dilarang */
+  opacity: 0.7;
+  box-shadow: none;
+}
+
 .form-container h5 {
   text-align: center;
   font-size: 1rem;
@@ -377,42 +451,37 @@ body {
 }
 
 .btn-add-cart {
-  /* Mengatur tata letak agar ikon dan teks sejajar secara horizontal */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px; /* Jarak antara ikon dan teks */
+  gap: 8px;
 
-  /* Warna latar belakang cokelat/emas & warna teks putih */
-  background-color: #c08b38; /* Sesuaikan kode warna cokelat/emas Anda */
-  color: #ffffff;
+  /* Warna Latar & Teks */
+  background-color: #ffffff;
+  color: #8c621d; /* Warna cokelat/emas sesuai tema */
 
-  /* Ukuran & sudut tombol */
-  padding: 12px 24px;
-  border-radius: 6px; /* Lengkungan sudut tombol */
-  font-weight: 500;
+  /* Ukuran & Bentuk */
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
   text-decoration: none;
 
-  /* Efek halus saat kursor diarahkan */
-  transition: background-color 0.2s ease-in-out;
+  /* Bayangan */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease-in-out;
 }
 
-/* Mencegah SVG mengganggu event klik */
-.btn-add-cart svg,
-.btn-add-cart i {
-  pointer-events: none;
-}
-
-/* Efek saat tombol di-hover oleh kursor */
 .btn-add-cart:hover {
-  background-color: #a8762b;
+  background-color: #f8f8f8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Efek saat kursor diarahkan ke tombol (Hover) */
-.btn-cart:hover {
-  background-color: #966d09;
+.btn-add-cart svg {
+  pointer-events: none;
+  stroke: #8c621d;
 }
-
 /*.feather {
   width: 24px;
   height: 24px;

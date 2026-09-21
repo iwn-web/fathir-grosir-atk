@@ -49,7 +49,12 @@
         <a href="#" id="hamburger-menu"><i data-feather="menu"></i></a>
       </div>
       <div class="search-form">
-        <input type="search" id="search-box" placeholder="Cari disini..." />
+        <input
+          type="search"
+          id="search-box"
+          placeholder="Cari disini..."
+          x-model="keyword"
+        />
         <label for="search-box"><i data-feather="search"></i></label>
       </div>
 
@@ -79,27 +84,82 @@
           Total <span x-text="rupiah($store.cart.total)"></span>
         </h4>
         <div class="form-container" x-show="$store.cart.items.length">
-          <form action="" id="checkoutForm">
-            <h5>Customor Details</h5>
-            <label for="name">
-              <span>Name</span>
-              <input type="text" name="name" id="name" />
-            </label>
-            <label for="email">
-              <span>Email</span>
-              <input type="text" name="email" id="email" />
-            </label>
-            <label for="phone">
-              <span>Nomor Telepon</span>
-              <input type="number" name="phone" id="phone" autocomplete="off" />
-            </label>
-            <button
-              class="checkout-button"
-              type="submit"
-              id="checkout-button"
-              value="checkout"
-            >
-              CheckOut
+          <form
+            x-data="{ 
+    name: '', 
+    email: '', 
+    phone: '',
+    checkoutWA() {
+      // Ambil data langsung dari store Alpine
+      const cartItems = $store.cart.items;
+      const cartTotal = $store.cart.total;
+
+      if (!cartItems || cartItems.length === 0) {
+        alert('Keranjang Anda masih kosong!');
+        return;
+      }
+
+      // Buat rincian daftar produk
+      let productList = cartItems
+        .map((item) => `- ${item.name} (${item.quantity}x) = rupiah(${item.total})`)
+        .join('\n');
+
+      // Buat format pesan
+      const message = `Halo, saya ingin melakukan pemesanan ATK:\n\n` +
+        `*Data Pemesan:*\n` +
+        `Nama: ${this.name}\n` +
+        `Email: ${this.email}\n` +
+        `No. HP: ${this.phone}\n\n` +
+        `*Rincian Pesanan:*\n` +
+        `${productList}\n\n` +
+        `*Total Bayar:* rupiah(${cartTotal})\n\n` +
+        `Mohon info rekening/QRIS untuk pembayaran via e-wallet (GoPay/Dana/OVO). Terima kasih!`;
+
+      // Buka link WhatsApp (Ganti nomor HP dengan nomor Anda)
+      const whatsappUrl = `https://wa.me/628815651785?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+    }
+  }"
+            @submit.prevent="checkoutWA()"
+            class="checkout-form"
+          >
+            <h2>Customer Details</h2>
+
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input
+                type="text"
+                id="name"
+                x-model="name"
+                placeholder="Masukkan nama Anda"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                x-model="email"
+                placeholder="Masukkan email Anda"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Nomor Telepon</label>
+              <input
+                type="tel"
+                id="phone"
+                x-model="phone"
+                placeholder="Masukkan nomor telepon"
+                required
+              />
+            </div>
+
+            <button type="submit" class="checkout-button">
+              CheckOut via WhatsApp
             </button>
           </form>
         </div>
